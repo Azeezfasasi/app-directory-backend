@@ -6,6 +6,7 @@ const {
   updateProfile,
   deleteProfile,
   getCurrentUserProfile,
+  getAllProfiles,
 } = require("../controllers/profileController");
 const authenticateUser = require("../middleware/authenticateUser");
 
@@ -20,6 +21,8 @@ router.get("/:userId", authenticateUser, getProfileById); // GET /api/profiles/:
 router.put("/:userId", authenticateUser, updateProfile); // PUT /api/profiles/:userId
 router.delete("/:userId", authenticateUser, deleteProfile); // DELETE /api/profiles/:userId
 router.get("/me", authenticateUser, getCurrentUserProfile); // GET /api/profiles/me
+router.get("/", authenticateUser, getAllProfiles); // GET /api/profiles/
+
 
 
 module.exports = router;

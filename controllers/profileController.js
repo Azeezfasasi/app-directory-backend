@@ -61,6 +61,17 @@ const getCurrentUserProfile = async (req, res) => {
   }
 };
 
+// Get all profiles
+const getAllProfiles = async (req, res) => {
+  try {
+    const profiles = await Profile.find().select("-password"); // Exclude passwords
+    res.status(200).json(profiles);
+  } catch (error) {
+    console.error("Error fetching profiles:", error);
+    res.status(500).json({ error: "Error fetching profiles" });
+  }
+};
+
 // Get profile by ID
 const getProfileById = async (req, res) => {
   try {
@@ -127,4 +138,5 @@ module.exports = {
   updateProfile,
   deleteProfile,
   getCurrentUserProfile,
+  getAllProfiles,
 };
