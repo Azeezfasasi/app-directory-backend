@@ -23,6 +23,7 @@ const profileSchema = new mongoose.Schema({
     enum: ["Admin", "Viewer"],
     default: "Viewer",
   },
+  disabled: { type: Boolean, default: false }
 });
 
 // Hash password before saving

@@ -23,6 +23,4 @@ router.delete("/:userId", authenticateUser, deleteProfile); // DELETE /api/profi
 router.get("/me", authenticateUser, getCurrentUserProfile); // GET /api/profiles/me
 router.get("/", authenticateUser, getAllProfiles); // GET /api/profiles/
 
-
-
 module.exports = router;
