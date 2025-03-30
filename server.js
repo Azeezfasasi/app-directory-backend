@@ -11,10 +11,22 @@ dotenv.config(); // Load environment variables
 
 const app = express();
 
-const corsOptions = {
-  origin: 'http://localhost:5173', // Allow your frontend URL
-  credentials: true,               // Allow cookies or authorization headers
-};
+// Define allowed origins for CORS
+const allowedOrigins = [
+  "http://localhost:5173", // Development frontend
+  "https://website-directory.netlify.app" // Production frontend
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true
+}));
 
 // MongoDB Connection
 const connectDB = async () => {
@@ -34,7 +46,6 @@ connectDB();
 
 // Middleware
 app.use(express.json());
-app.use(cors(corsOptions));
 
 // Routes
 app.use("/api/tenants", tenantRoutes);
