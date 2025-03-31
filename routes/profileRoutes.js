@@ -7,6 +7,7 @@ const {
   deleteProfile,
   getCurrentUserProfile,
   getAllProfiles,
+  addUserByAdmin,
 } = require("../controllers/profileController");
 const authenticateUser = require("../middleware/authenticateUser");
 
@@ -22,5 +23,8 @@ router.put("/:userId", authenticateUser, updateProfile); // PUT /api/profiles/:u
 router.delete("/:userId", authenticateUser, deleteProfile); // DELETE /api/profiles/:userId
 router.get("/me", authenticateUser, getCurrentUserProfile); // GET /api/profiles/me
 router.get("/", authenticateUser, getAllProfiles); // GET /api/profiles/
+
+// Add user by admin (Protected, only Admins)
+router.post("/admin/add-user", authenticateUser, addUserByAdmin); // POST /api/profiles/admin/add-user
 
 module.exports = router;

@@ -86,39 +86,6 @@ const getProfileById = async (req, res) => {
 };
 
 // Update profile
-// const updateProfile = async (req, res) => {
-//   try {
-//     const { userId } = req.params;
-//     const { name, email, password, role } = req.body;
-
-//     const updatedProfile = await Profile.findById(userId);
-//     if (!updatedProfile) return res.status(404).json({ error: "Profile not found" });
-
-//     if (name) updatedProfile.name = sanitizeInput(name);
-//     if (email) updatedProfile.email = sanitizeInput(email);
-
-//     // Hash password if updated
-//     if (password) {
-//       updatedProfile.password = await bcrypt.hash(password, 10);
-//     }
-
-//     if (role) updatedProfile.role = role;
-
-//     await updatedProfile.save();
-
-//     res.status(200).json({
-//       message: "Profile updated successfully",
-//       updatedProfile: {
-//         id: updatedProfile._id,
-//         name: updatedProfile.name,
-//         role: updatedProfile.role,
-//       },
-//     });
-//   } catch (error) {
-//     console.error("Error updating profile:", error);
-//     res.status(500).json({ error: "Error updating profile" });
-//   }
-// };
 const updateProfile = async (req, res) => {
   try {
     const { userId } = req.params;
@@ -171,6 +138,34 @@ const deleteProfile = async (req, res) => {
   }
 };
 
+// Admin: Add a new user
+const addUserByAdmin = async (req, res) => {
+  try {
+    const { name, email, password, role } = req.body;
+
+    // Check if user already exists
+    const existingUser = await Profile.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: "User with this email already exists" });
+    }
+
+    // Create new user
+    const newUser = new Profile({
+      name,
+      email,
+      password, 
+      role,
+    });
+
+    await newUser.save();
+
+    res.status(201).json({ message: "User added successfully", user: newUser });
+  } catch (error) {
+    console.error("Error adding user:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
 module.exports = {
   registerProfile,
   loginProfile,
@@ -179,4 +174,5 @@ module.exports = {
   deleteProfile,
   getCurrentUserProfile,
   getAllProfiles,
+  addUserByAdmin,
 };
