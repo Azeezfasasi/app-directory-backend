@@ -34,11 +34,11 @@ const loginProfile = async (req, res) => {
 
     // Find user by email
     const user = await Profile.findOne({ email });
-    if (!user) return res.status(400).json({ message: "Invalid credentials" });
+    if (!user) return res.status(400).json({ message: "Incorrect username" });
 
     // Compare password
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return res.status(400).json({ message: "Invalid credentials" });
+    if (!isMatch) return res.status(400).json({ message: "Incorrect Password" });
 
     // Generate token
     const token = generateToken(user);
