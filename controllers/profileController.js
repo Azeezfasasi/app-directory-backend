@@ -86,10 +86,43 @@ const getProfileById = async (req, res) => {
 };
 
 // Update profile
+// const updateProfile = async (req, res) => {
+//   try {
+//     const { userId } = req.params;
+//     const { name, email, password, role } = req.body;
+
+//     const updatedProfile = await Profile.findById(userId);
+//     if (!updatedProfile) return res.status(404).json({ error: "Profile not found" });
+
+//     if (name) updatedProfile.name = sanitizeInput(name);
+//     if (email) updatedProfile.email = sanitizeInput(email);
+
+//     // Hash password if updated
+//     if (password) {
+//       updatedProfile.password = await bcrypt.hash(password, 10);
+//     }
+
+//     if (role) updatedProfile.role = role;
+
+//     await updatedProfile.save();
+
+//     res.status(200).json({
+//       message: "Profile updated successfully",
+//       updatedProfile: {
+//         id: updatedProfile._id,
+//         name: updatedProfile.name,
+//         role: updatedProfile.role,
+//       },
+//     });
+//   } catch (error) {
+//     console.error("Error updating profile:", error);
+//     res.status(500).json({ error: "Error updating profile" });
+//   }
+// };
 const updateProfile = async (req, res) => {
   try {
     const { userId } = req.params;
-    const { name, email, password, role } = req.body;
+    const { name, email, password, role, disabled } = req.body;
 
     const updatedProfile = await Profile.findById(userId);
     if (!updatedProfile) return res.status(404).json({ error: "Profile not found" });
@@ -104,6 +137,11 @@ const updateProfile = async (req, res) => {
 
     if (role) updatedProfile.role = role;
 
+    // ✅ Handle disabling user
+    if (disabled !== undefined) {
+      updatedProfile.disabled = disabled;
+    }
+
     await updatedProfile.save();
 
     res.status(200).json({
@@ -112,6 +150,7 @@ const updateProfile = async (req, res) => {
         id: updatedProfile._id,
         name: updatedProfile.name,
         role: updatedProfile.role,
+        disabled: updatedProfile.disabled,
       },
     });
   } catch (error) {
@@ -119,6 +158,7 @@ const updateProfile = async (req, res) => {
     res.status(500).json({ error: "Error updating profile" });
   }
 };
+
 
 // Delete profile
 const deleteProfile = async (req, res) => {
