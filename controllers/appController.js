@@ -13,15 +13,11 @@ const getAllApps = async (req, res) => {
 // Get all apps for a specific tenant
 const getAppsByTenant = async (req, res) => {
   try {
-    console.log("Received tenantId:", req.params.tenantId); // Debugging
-
     if (!req.params.tenantId) {
       return res.status(400).json({ error: "Missing tenantId parameter" });
     }
 
     const apps = await App.find({ tenantId: req.params.tenantId });
-
-    console.log("Apps found:", apps);
     
     res.status(200).json(apps);
   } catch (error) {

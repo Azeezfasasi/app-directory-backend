@@ -53,15 +53,6 @@ const createTenant = async (req, res) => {
 };
 
 // Update a tenant
-// const updateTenant = async (req, res) => {
-//     try {
-//       const { id } = req.params;
-//       const updatedTenant = await Tenant.findByIdAndUpdate(id, req.body, { new: true });
-//       res.status(200).json(updatedTenant);
-//     } catch (error) {
-//       res.status(500).json({ error: "Error updating tenant" });
-//     }
-//   };
 const updateTenant = async (req, res) => {
   try {
     const { tenantId } = req.params;
@@ -91,15 +82,6 @@ const updateTenant = async (req, res) => {
 
 
   // Delete a tenant
-// const deleteTenant = async (req, res) => {
-//     try {
-//       const { id } = req.params;
-//       await Tenant.findByIdAndDelete(id);
-//       res.status(200).json({ message: "Tenant deleted successfully" });
-//     } catch (error) {
-//       res.status(500).json({ error: "Error deleting tenant" });
-//     }
-//   };
 const deleteTenant = async (req, res) => {
   try {
     const { tenantId } = req.params;
